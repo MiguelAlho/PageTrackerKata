@@ -5,10 +5,15 @@ using Xunit;
 
 namespace PageTracker.Api.Tests;
 
+public class Uris
+{
+    public static Uri ValidUri1 => new("http://google.com");
+    public static Uri ValidUri2 => new("http://google.com/?search=x");
+}
+
 public class TrackerTests
 {
-    static Uri ValidUri1 = new Uri("http://google.com");
-    static Uri ValidUri2 = new Uri("http://google.com/?search=x");
+    
 
     [Fact]
     public void UrisAreMatchable()
@@ -26,7 +31,7 @@ public class TrackerTests
         {
             var tracker = new Tracker();
 
-            tracker.GetUniqueVisitorCount(ValidUri1).Should().Be(0);
+            tracker.GetUniqueVisitorCount(Uris.ValidUri1).Should().Be(0);
         }
 
         [Fact]
@@ -35,9 +40,9 @@ public class TrackerTests
             var tracker = new Tracker();
             var visitorId = Guid.NewGuid().ToString();
 
-            tracker.RegisterVisit(ValidUri1, visitorId);
+            tracker.RegisterVisit(Uris.ValidUri1, visitorId);
 
-            tracker.GetUniqueVisitorCount(ValidUri1).Should().Be(1);
+            tracker.GetUniqueVisitorCount(Uris.ValidUri1).Should().Be(1);
         }
 
         [Fact]
@@ -46,10 +51,10 @@ public class TrackerTests
             var tracker = new Tracker();
             var visitorId = Guid.NewGuid().ToString();
 
-            tracker.RegisterVisit(ValidUri1, visitorId);
-            tracker.RegisterVisit(ValidUri1, visitorId);
+            tracker.RegisterVisit(Uris.ValidUri1, visitorId);
+            tracker.RegisterVisit(Uris.ValidUri1, visitorId);
 
-            tracker.GetUniqueVisitorCount(ValidUri1).Should().Be(1);
+            tracker.GetUniqueVisitorCount(Uris.ValidUri1).Should().Be(1);
         }
 
         [Fact]
@@ -58,11 +63,11 @@ public class TrackerTests
             var tracker = new Tracker();
             var visitorId = Guid.NewGuid().ToString();
 
-            tracker.RegisterVisit(ValidUri1, visitorId);
-            tracker.RegisterVisit(ValidUri2, visitorId);
+            tracker.RegisterVisit(Uris.ValidUri1, visitorId);
+            tracker.RegisterVisit(Uris.ValidUri2, visitorId);
 
-            tracker.GetUniqueVisitorCount(ValidUri1).Should().Be(1);
-            tracker.GetUniqueVisitorCount(ValidUri2).Should().Be(1);
+            tracker.GetUniqueVisitorCount(Uris.ValidUri1).Should().Be(1);
+            tracker.GetUniqueVisitorCount(Uris.ValidUri2).Should().Be(1);
         }
 
         [Fact]
@@ -72,12 +77,12 @@ public class TrackerTests
             var visitorId1 = Guid.NewGuid().ToString();
             var visitorId2 = Guid.NewGuid().ToString();
 
-            tracker.RegisterVisit(ValidUri1, visitorId1);
-            tracker.RegisterVisit(ValidUri1, visitorId2);
-            tracker.RegisterVisit(ValidUri1, visitorId1);
-            tracker.RegisterVisit(ValidUri1, visitorId2);
+            tracker.RegisterVisit(Uris.ValidUri1, visitorId1);
+            tracker.RegisterVisit(Uris.ValidUri1, visitorId2);
+            tracker.RegisterVisit(Uris.ValidUri1, visitorId1);
+            tracker.RegisterVisit(Uris.ValidUri1, visitorId2);
 
-            tracker.GetUniqueVisitorCount(ValidUri1).Should().Be(2);
+            tracker.GetUniqueVisitorCount(Uris.ValidUri1).Should().Be(2);
         }
 
     }

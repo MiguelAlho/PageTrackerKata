@@ -24,7 +24,7 @@ public class Tracker
             });
     }
 
-    public object GetUniqueVisitorCount(Uri url)
+    public int GetUniqueVisitorCount(Uri url)
     {
         return _tracker.ContainsKey(url) && _tracker.TryGetValue(url, out var visitors)
                 ? visitors.Count
